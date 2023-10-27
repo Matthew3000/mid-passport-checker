@@ -1,0 +1,5 @@
+OutputFile = "output/passports.csv"
+InputFile  = "input/ids.csv"
+APIAddress = "https://info.midpass.ru/"
+ReqAddress = "api/request/"
+ReqTimer   = "10"
