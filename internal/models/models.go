@@ -1,5 +1,7 @@
 package models
 
+import "github.com/pkg/errors"
+
 type Passport struct {
 	Uid            string      `json:"uid"`
 	SourceUid      interface{} `json:"sourceUid"`
@@ -17,3 +19,7 @@ type Passport struct {
 	} `json:"internalStatus"`
 	Clones []interface{} `json:"clones"`
 }
+
+var (
+	ErrExceededTimout = errors.New("timeout exceeded")
+)

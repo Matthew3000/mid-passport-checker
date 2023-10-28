@@ -10,7 +10,10 @@ import (
 	"strconv"
 )
 
-func (str *Storage) PutPassportInfo(passports []models.Passport, ctx context.Context) error {
+func (str *Storage) PutPassportInfo(passports []models.Passport) error {
+	str.mutex.Lock()
+	defer str.mutex.Unlock()
+
 	file, err := os.Create(str.cfg.OutputFile)
 	if err != nil {
 		return err
@@ -56,8 +59,13 @@ func (str *Storage) GetPassportID(ctx context.Context) ([]string, error) {
 
 	var passportIDs []string
 	for _, record := range records {
-		for _, field := range record {
-			passportIDs = append(passportIDs, field)
+		select {
+		case <-ctx.Done():
+			return nil, models.ErrExceededTimout
+		default:
+			for _, field := range record {
+				passportIDs = append(passportIDs, field)
+			}
 		}
 	}
 	return passportIDs, nil

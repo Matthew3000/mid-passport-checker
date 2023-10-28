@@ -8,7 +8,7 @@ import (
 )
 
 func (svc *Service) PassportService() {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Minute)
 	defer cancel()
 
 	log.Info().Msg("Trying to get data")
@@ -19,7 +19,7 @@ func (svc *Service) PassportService() {
 	}
 
 	log.Info().Msg("Data received. Trying to write.")
-	err = svc.SavePassportInfo(passports, ctx)
+	err = svc.SavePassportInfo(passports)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to save passports")
 	}
@@ -39,7 +39,7 @@ func (svc *Service) GetPassports(ctx context.Context) ([]models.Passport, error)
 	return passports, err
 }
 
-func (svc *Service) SavePassportInfo(passports []models.Passport, ctx context.Context) error {
-	err := svc.str.PutPassportInfo(passports, ctx)
+func (svc *Service) SavePassportInfo(passports []models.Passport) error {
+	err := svc.str.PutPassportInfo(passports)
 	return err
 }
