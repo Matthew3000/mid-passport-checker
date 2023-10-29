@@ -35,7 +35,7 @@ func (api *API) GetDataFromServer(ids []string, ctx context.Context) ([]models.P
 		default:
 			client := &http.Client{}
 			url := api.cfg.APIAddress + api.cfg.ReqAddress + id
-			req, err := http.NewRequest(http.MethodGet, url, nil)
+			req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 			req.Header.Set("User-Agent", "FooBar")
 			req.Header.Set("Accept", "*/*")
 			req.Header.Set("Connection", "keep-alive")
